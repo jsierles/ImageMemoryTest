@@ -57,7 +57,8 @@ var Oracle = React.createClass({
 
   componentDidMount() {
     FS.readDir('/images', FS.MainBundle).then((res) => {
-      this.setState({imagePath: res[0].path.split("/").slice(0, 9).join("/")})
+      let imagePath = res[0].path.split('/').slice(0, -1).join('/');
+      this.setState({imagePath: imagePath})
       this.updateSoup();
     })
 
@@ -66,12 +67,13 @@ var Oracle = React.createClass({
 
   renderIngredient(ingredient) {
     if (this.state.local) {
-      var path = this.state.imagePath+"/images/"+ingredient.id+"-oracle.png"
+     var path = this.state.imagePath + '/' + ingredient.id + "-oracle.png"
     } else {
-      var path = 'http://noodler-app.com/'+ingredient.oracle_png_url
+     var path = 'http://noodler-app.com/' + ingredient.oracle_png_url
     }
+
     return <Image source={{uri: path}} style={styles.ingredient_image} />;
-  },
+   },
 
   navigateToCookSoup() {
     this.props.navigator.replace({id: 'cook_soup', ingredients: this.state.ingredients, grid_ingredients: this.state.grid_ingredients});
@@ -88,7 +90,6 @@ var Oracle = React.createClass({
       <View style={styles.container}>
         <View style={styles.soup_container}>
           {content}
-              {this.renderIngredient({oracle_png_url: "/media/W1siZiIsIjIwMTUvMDMvMTMvODZraXJ6cDBtdF9jaG9wc3RpY2tzX3NoYWRvd19vbGQucGRmIl0sWyJwIiwiY29udmVydCIsIi1xdWFsaXR5IDkwIC1kZXB0aCA4IC1zdHJpcCAtcmVzaXplIDUwMHgiLHsiZm9ybWF0IjoicG5nIiwiaW5pdGlhbF9hcmdzIjoiLWRlbnNpdHkgMTcwIn1dXQ"})}
 
         </View>
         <Text style={styles.soup_text}>
